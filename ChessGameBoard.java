@@ -155,54 +155,49 @@ public class ChessGameBoard extends JPanel{
      * (Re)initializes this ChessGameBoard to its default layout with all 32
      * pieces added.
      */
-    public void initializeBoard(){
-        resetBoard( false );
-        for ( int i = 0; i < chessCells.length; i++ ){
-            for ( int j = 0; j < chessCells[0].length; j++ ){
-                ChessGamePiece pieceToAdd;
-                if ( i == 1 ) // black pawns
-                {
-                    pieceToAdd = new Pawn( this, i, j, ChessGamePiece.BLACK );
-                }
-                else if ( i == 6 ) // white pawns
-                {
-                    pieceToAdd = new Pawn( this, i, j, ChessGamePiece.WHITE );
-                }
-                else if ( i == 0 || i == 7 ) // main rows
-                {
-                    int colNum =
-                        i == 0 ? ChessGamePiece.BLACK : ChessGamePiece.WHITE;
-                    if ( j == 0 || j == 7 ){
-                        pieceToAdd = new Rook( this, i, j, colNum );
+    public void initializeBoard() {
+        resetBoard(false);
+
+        for (int row = 0; row < chessCells.length; row++) {
+            for (int col = 0; col < chessCells[0].length; col++) {
+                ChessGamePiece pieceToAdd = null;
+
+                if (row == 1) { // Black pawns
+                    pieceToAdd = new Pawn(this, row, col, ChessGamePiece.BLACK);
+                } else if (row == 6) { // White pawns
+                    pieceToAdd = new Pawn(this, row, col, ChessGamePiece.WHITE);
+                } else if (row == 0 || row == 7) { // Main rows
+                    int color = row == 0 ? ChessGamePiece.BLACK : ChessGamePiece.WHITE;
+
+                     switch (col) {
+                        case 0:
+                        case 7:
+                            pieceToAdd = new Rook(this, row, col, color);
+                            break;
+                        case 1:
+                        case 6:
+                            pieceToAdd = new Knight(this, row, col, color);
+                            break;
+                        case 2:
+                        case 5:
+                            pieceToAdd = new Bishop(this, row, col, color);
+                            break;
+                        case 3:
+                            pieceToAdd = new King(this, row, col, color);
+                            break;
+                        case 4:
+                            pieceToAdd = new Queen(this, row, col, color);
+                            break;
                     }
-                    else if ( j == 1 || j == 6 ){
-                        pieceToAdd = new Knight( this, i, j, colNum );
-                    }
-                    else if ( j == 2 || j == 5 ){
-                        pieceToAdd = new Bishop( this, i, j, colNum );
-                    }
-                    else if ( j == 3 ){
-                        pieceToAdd = new King( this, i, j, colNum );
-                    }
-                    else
-                    {
-                        pieceToAdd = new Queen( this, i, j, colNum );
-                    }
                 }
-                else
-                {
-                    pieceToAdd = null;
-                }
-                chessCells[i][j] = new BoardSquare( i, j, pieceToAdd );
-                if ( ( i + j ) % 2 == 0 ){
-                    chessCells[i][j].setBackground( Color.WHITE );
-                }
-                else
-                {
-                    chessCells[i][j].setBackground( Color.BLACK );
-                }
-                chessCells[i][j].addMouseListener( listener );
-                this.add( chessCells[i][j] );
+
+                BoardSquare square = new BoardSquare(row, col, pieceToAdd);
+
+                square.setBackground((row + col) % 2 == 0 ? Color.WHITE : Color.BLACK);
+                square.addMouseListener(listener);
+
+                chessCells[row][col] = square;
+                add(square);
             }
         }
     }
@@ -234,17 +229,11 @@ public class ChessGameBoard extends JPanel{
     private class BoardListener
         implements MouseListener
     {
-        /**
-         * Do an action when the left mouse button is clicked.
-         *
-         * @param e
-         *            the event from the listener
-         */
-        public void mouseClicked( MouseEvent e ){
-            if ( e.getButton() == MouseEvent.BUTTON1 &&
-                getParent() instanceof ChessPanel ){
-                ( (ChessPanel)getParent() ).getGameEngine()
-                    .determineActionFromSquareClick( e );
+
+        public void mouseClicked(MouseEvent e) {
+            if (e.getButton() == MouseEvent.BUTTON1 && getParent() instanceof ChessPanel) {
+                ChessPanel parent = (ChessPanel) getParent();
+                parent.getGameEngine().determineActionFromSquareClick(e);
             }
         }
         /**
@@ -255,29 +244,22 @@ public class ChessGameBoard extends JPanel{
          */
         public void mouseEntered( MouseEvent e ){ /* not used */
         }
-        /**
-         * Unused method.
-         *
-         * @param e
-         *            the mouse event from the listener
-         */
+
         public void mouseExited( MouseEvent e ){ /* not used */
         }
-        /**
-         * Unused method.
-         *
-         * @param e
-         *            the mouse event from the listener
-         */
+
         public void mousePressed( MouseEvent e ){ /* not used */
         }
-        /**
-         * Unused method.
-         *
-         * @param e
-         *            the mouse event from the listener
-         */
+
         public void mouseReleased( MouseEvent e ){ /* not used */
+        }
+        public void mouseEntered3( MouseEvent e ){ /* not used */
+            ArrayList<String> movimientos=new ArrayList<>();
+            if ( e.getButton() == MouseEvent.BUTTON1 &&
+                    getParent() instanceof ChessPanel ){
+                movimientos.add("STRING");
+
+            }
         }
     }
 }

@@ -4,35 +4,9 @@ import java.awt.event.MouseListener;
 import java.awt.Color;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
-// -------------------------------------------------------------------------
-/**
- * The panel that represents the Chess game board. Contains a few methods that
- * allow other classes to access the physical board.
- *
- * @author Ben Katz (bakatz)
- * @author Myles David II (davidmm2)
- * @author Danielle Bushrow (dbushrow)
- * @version 2010.11.17
- */
 public class ChessGameBoard extends JPanel{
     private BoardSquare[][] chessCells;
-    private BoardListener   listener;
-    // ----------------------------------------------------------
-    /**
-     * Returns the entire board.
-     *
-     * @return BoardSquare[][] the chess board
-     */
-    public BoardSquare[][] getCells(){
-        return chessCells;
-    }
-    /**
-     * Checks to make sure row and column are valid indices.
-     * @param row the row to check
-     * @param col the column to check
-     * @return boolean true if they are valid, false otherwise
-     */
-    private boolean validateCoordinates( int row, int col ){
+    private BoardListener   listener;    private boolean validateCoordinates( int row, int col ){
         return chessCells.length > 0 && chessCells[0].length > 0 &&
             row < chessCells.length && col < chessCells[0].length
             && row >= 0 && col >= 0;
